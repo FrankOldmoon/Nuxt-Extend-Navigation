@@ -89,7 +89,6 @@ function openLink() {
           </span>
         </span>
       </span>
-      <UIcon name="i-lucide-external-link" class="h-3.5 w-3.5 shrink-0 text-muted" />
     </button>
   </div>
 </template>

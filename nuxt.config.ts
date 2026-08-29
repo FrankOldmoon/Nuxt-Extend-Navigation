@@ -12,17 +12,7 @@
  * (`./i18n/locales/*.json`) and deep-merge them with the host locales, so the
  * navigation tables/labels participate in the shared `dashboard.tables` /
  * `dashboard.fields` translation system.
- *
- * The `pages:extend` hook removes the host project's index page so that this
- * layer's `app/pages/index.vue` takes over the root `/` route.  In Nuxt the
- * host always wins over layers for the same route, so the hook is the only
- * way to let a layer override `/` without host code changes.
  */
-import { createResolver } from 'nuxt/kit'
-
-const { resolve } = createResolver(import.meta.url)
-const navPagesDir = resolve('./app/pages')
-
 export default defineNuxtConfig({
   i18n: {
     langDir: 'locales',
@@ -30,16 +20,5 @@ export default defineNuxtConfig({
       { code: 'en', name: 'English', file: 'en.json' },
       { code: 'zh', name: '中文', file: 'zh.json' }
     ]
-  },
-  // hooks: {
-  //   'pages:extend'(pages: Array<{ path: string; file?: string }>) {
-  //     // Find the index page — if it's NOT from this layer, remove it so
-  //     // the layer's own index page becomes the only `/` route.
-  //     const page = pages.find(p => p.path === '/')
-  //     if (page && page.file && !page.file.startsWith(navPagesDir)) {
-  //       const idx = pages.indexOf(page)
-  //       if (idx !== -1) pages.splice(idx, 1)
-  //     }
-  //   }
-  // }
+  }
 })

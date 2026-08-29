@@ -42,10 +42,8 @@ export const navLinkMeta: TableMeta = {
     { key: 'id', label: 'ID', type: 'number', nullable: false, showInForm: false, showInTable: true, showInDetail: true, editable: false },
     { key: 'title', label: 'Title', type: 'text', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { required: true, maxLength: 255 } },
     { key: 'url', label: 'URL', type: 'hyperlink', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { required: true }, helpText: 'Target website address.' },
-    {
-      key: 'logo', label: 'Logo', type: 'icon', nullable: true,
-      showInForm: true, showInTable: true, showInDetail: true, editable: true,
-      helpText: 'URL, Iconify class, or inline SVG. Use “Fetch icon” in the form to grab the site favicon.'
+    { key: 'logo', label: 'Logo', type: 'icon', nullable: true,
+      showInForm: true, showInTable: true, showInDetail: true, editable: true
     },
     { key: 'description', label: 'Description', type: 'textarea', nullable: true, showInForm: true, showInTable: false, showInDetail: true, editable: true },
     { key: 'tags', label: 'Tags', type: 'tags', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },
