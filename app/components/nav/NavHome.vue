@@ -173,14 +173,14 @@ async function confirmDelete(id: number) {
         </div>
 
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <div v-for="l in g.links" :key="l.id" class="flex">
-            <NavLinkCard
-              :link="l"
-              :deleting="deleting"
-              @edit="openEdit"
-              @delete="confirmDelete"
-            />
-          </div>
+          <NavLinkCard
+            v-for="l in g.links"
+            :key="l.id"
+            :link="l"
+            :deleting="deleting"
+            @edit="openEdit"
+            @delete="confirmDelete"
+          />
         </div>
       </div>
     </section>

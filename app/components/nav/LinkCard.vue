@@ -36,7 +36,7 @@ function openLink() {
 
 <template>
   <div
-    class="group relative flex flex-1 items-center gap-3 rounded-xl border border-default bg-white p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
+    class="group relative flex h-full items-center gap-3 rounded-xl border border-default bg-white p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
   >
     <!-- Top-right edit/delete buttons -->
     <div class="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-0 transition group-hover:opacity-100" @click.stop>
