@@ -76,11 +76,21 @@ function openLink() {
         <span v-else class="truncate text-sm font-semibold text-highlighted group-hover:text-primary">
           {{ link.title }}
         </span>
-        <UTooltip v-if="link.description && link.description.length > 50" :text="link.description">
-          <span class="line-clamp-2 text-xs text-muted">{{ link.description }}</span>
+        <!-- Summary (always visible) + hover tooltip shows markdown description -->
+        <UTooltip
+          v-if="link.description"
+          :content="{ side: 'top', align: 'center' }"
+          :ui="{ content: '!max-w-md !w-auto' }"
+        >
+          <template #content>
+            <div class="prose prose-sm max-w-none p-2 text-xs">
+              <BaseMarkdownViewer :content="link.description" />
+            </div>
+          </template>
+          <span class="line-clamp-2 text-xs text-muted">{{ link.summary || link.description.slice(0, 80) }}</span>
         </UTooltip>
-        <span v-else-if="link.description" class="line-clamp-2 text-xs text-muted">
-          {{ link.description }}
+        <span v-else-if="link.summary" class="line-clamp-2 text-xs text-muted">
+          {{ link.summary }}
         </span>
         <span v-if="link.tags.length" class="mt-0.5 flex flex-wrap gap-1">
           <span

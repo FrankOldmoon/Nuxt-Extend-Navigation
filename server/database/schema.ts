@@ -47,6 +47,7 @@ export const navLinks = pgTable('nav_links',
     title: varchar('title', { length: 255 }).notNull(),
     url: text('url').notNull(),
     description: text('description'),
+    summary: varchar('summary', { length: 255 }),
     // Logo/favicon representation. May contain, in precedence order:
     //   1. a plain URL (https://… / /api/files/…)  → rendered as <img>
     //   2. an Iconify class (i-lucide-globe)       → rendered as <UIcon>

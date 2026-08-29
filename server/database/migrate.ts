@@ -50,6 +50,9 @@ CREATE INDEX IF NOT EXISTS nav_links_featured_idx ON nav_links (is_featured);
 -- Upgrade path: toggle for active/inactive flags if a database predates them.
 ALTER TABLE nav_categories ADD COLUMN IF NOT EXISTS is_active boolean NOT NULL DEFAULT true;
 ALTER TABLE nav_links     ADD COLUMN IF NOT EXISTS is_active boolean NOT NULL DEFAULT true;
+
+-- Upgrade path: summary column for the short card text.
+ALTER TABLE nav_links ADD COLUMN IF NOT EXISTS summary varchar(255);
 `
 
 /**

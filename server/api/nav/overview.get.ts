@@ -17,6 +17,7 @@ export interface NavOverviewGroup {
     title: string
     url: string
     description: string | null
+    summary: string | null
     logo: string | null
     tags: string[]
     categoryId: number | null
@@ -54,6 +55,7 @@ export default defineEventHandler(async (): Promise<NavOverviewGroup[]> => {
       title: l.title,
       url: l.url,
       description: l.description,
+      summary: l.summary,
       logo: l.logo,
       tags: l.tags,
       categoryId: l.categoryId,
