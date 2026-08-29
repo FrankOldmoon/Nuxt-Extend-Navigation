@@ -19,6 +19,8 @@ const emit = defineEmits<{
   delete: [id: number]
 }>()
 
+const descOpen = ref(false)
+
 function openLink() {
   try {
     const u = new URL(props.link.url)
@@ -59,20 +61,20 @@ function openLink() {
         @confirm="emit('delete', link.id)"
       />
       <!-- Description info icon (rightmost, only when description exists) -->
-      <UTooltip
+      <span
         v-if="link.description"
-        :content="{ side: 'top', align: 'center' }"
-        :ui="{ content: '!max-w-sm !overflow-hidden' }"
+        class="flex h-5 w-5 cursor-pointer items-center justify-center rounded hover:bg-muted"
+        @click.stop="descOpen = true"
       >
-        <template #content>
-          <div class="prose prose-xs max-w-none p-2 text-xs">
+        <UIcon name="i-lucide-alert-circle" class="h-3.5 w-3.5 text-muted" />
+      </span>
+      <UModal v-model:open="descOpen" :title="link.title" class="max-w-lg">
+        <template #body>
+          <div class="prose prose-sm max-w-none p-4">
             <BaseMarkdownViewer :source="link.description" />
           </div>
         </template>
-        <span class="flex h-5 w-5 cursor-pointer items-center justify-center rounded hover:bg-muted">
-          <UIcon name="i-lucide-alert-circle" class="h-3.5 w-3.5 text-muted" />
-        </span>
-      </UTooltip>
+      </UModal>
     </div>
 
     <!-- Clickable area (opens the link) -->
