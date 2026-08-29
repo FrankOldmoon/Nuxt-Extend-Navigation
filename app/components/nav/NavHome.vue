@@ -102,9 +102,9 @@ async function confirmDelete(id: number) {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#f7fafc]">
+  <div class="min-h-screen bg-default">
     <!-- Search bar -->
-    <section class="border-b border-default bg-white">
+    <section class="border-b border-default bg-elevated">
       <div class="mx-auto max-w-5xl px-4 py-4">
         <div class="flex items-center gap-3">
           <UColorModeButton />

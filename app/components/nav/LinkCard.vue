@@ -38,7 +38,7 @@ function openLink() {
 
 <template>
   <div
-    class="group relative flex h-24 items-center gap-3 rounded-xl border border-default bg-white p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
+    class="group relative flex h-24 items-center gap-3 rounded-xl border border-default bg-elevated p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
   >
     <!-- Top-right buttons (always visible) -->
     <div class="absolute right-2 top-2 z-10 flex items-center gap-1" @click.stop>
