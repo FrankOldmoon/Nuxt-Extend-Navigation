@@ -81,11 +81,9 @@ const isEmpty = computed(() => status.value === 'success' && filteredGroups.valu
         </div>
 
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <NavLinkCard
-            v-for="l in g.links"
-            :key="l.id"
-            :link="l"
-          />
+          <div v-for="l in g.links" :key="l.id" class="h-full">
+            <NavLinkCard :link="l" />
+          </div>
         </div>
       </div>
     </section>

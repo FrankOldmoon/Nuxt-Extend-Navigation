@@ -53,7 +53,7 @@ async function confirmDelete() {
 
 <template>
   <div
-    class="group relative flex w-full items-center gap-3 rounded-xl border border-default bg-white p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
+    class="group relative flex h-full w-full items-center gap-3 rounded-xl border border-default bg-white p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
   >
     <!-- Top-right edit/delete buttons -->
     <div class="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-0 transition group-hover:opacity-100">
@@ -83,12 +83,20 @@ async function confirmDelete() {
       class="flex w-full items-center gap-3 text-left"
       @click="openLink"
     >
-      <NavLogo :logo="link.logo" :size="'h-11 w-11'" />
+      <NavLogo :logo="link.logo" :size="'h-11 w-11 shrink-0'" />
       <span class="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span class="truncate text-sm font-semibold text-highlighted group-hover:text-primary">
+        <UTooltip v-if="link.title.length > 30" :text="link.title">
+          <span class="truncate text-sm font-semibold text-highlighted group-hover:text-primary">
+            {{ link.title }}
+          </span>
+        </UTooltip>
+        <span v-else class="truncate text-sm font-semibold text-highlighted group-hover:text-primary">
           {{ link.title }}
         </span>
-        <span v-if="link.description" class="line-clamp-2 text-xs text-muted">
+        <UTooltip v-if="link.description && link.description.length > 50" :text="link.description">
+          <span class="line-clamp-2 text-xs text-muted">{{ link.description }}</span>
+        </UTooltip>
+        <span v-else-if="link.description" class="line-clamp-2 text-xs text-muted">
           {{ link.description }}
         </span>
         <span v-if="link.tags.length" class="mt-0.5 flex flex-wrap gap-1">
@@ -101,7 +109,7 @@ async function confirmDelete() {
           </span>
         </span>
       </span>
-      <UIcon name="i-lucide-external-link" class="h-3.5 w-3.5 shrink-0 text-muted opacity-0 transition group-hover:opacity-100" />
+      <UIcon name="i-lucide-external-link" class="h-3.5 w-3.5 shrink-0 text-muted" />
     </button>
   </div>
 </template>
