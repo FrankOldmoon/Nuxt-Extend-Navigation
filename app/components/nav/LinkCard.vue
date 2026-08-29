@@ -69,12 +69,9 @@ function openLink() {
             <BaseMarkdownViewer :content="link.description" />
           </div>
         </template>
-        <UButton
-          icon="i-lucide-alert-circle"
-          size="2xs"
-          color="neutral"
-          variant="ghost"
-        />
+        <span class="flex h-5 w-5 cursor-pointer items-center justify-center rounded hover:bg-muted">
+          <UIcon name="i-lucide-alert-circle" class="h-3.5 w-3.5 text-muted" />
+        </span>
       </UTooltip>
     </div>
 
