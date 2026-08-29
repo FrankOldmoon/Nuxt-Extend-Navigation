@@ -49,7 +49,7 @@ export const navLinkMeta: TableMeta = {
     },
     { key: 'description', label: 'Description', type: 'textarea', nullable: true, showInForm: true, showInTable: false, showInDetail: true, editable: true },
     { key: 'tags', label: 'Tags', type: 'tags', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },
-    { key: 'categoryId', label: 'Category', type: 'relation', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, relation: { table: 'navCategories', labelKey: 'name', valueKey: 'id' } },
+    { key: 'categoryId', label: 'Category', type: 'relation', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, relation: { table: 'navCategories', labelKey: 'name', valueKey: 'id', creatable: true, slugField: 'slug' } },
     { key: 'isFeatured', label: 'Featured', type: 'boolean', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },
     { key: 'isActive', label: 'Active', type: 'boolean', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },
     { key: 'sortOrder', label: 'Sort order', type: 'number', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },
