@@ -131,7 +131,7 @@ async function confirmDelete(id: number) {
             :key="cat.id"
             size="xs"
             :color="isSelected(cat.id) ? 'primary' : 'neutral'"
-            :variant="isSelected(cat.id) ? 'solid' : 'ghost'"
+            :variant="isSelected(cat.id) ? 'solid' : 'outline'"
             @click="toggleCategory(cat.id)"
           >
             {{ cat.name }}
