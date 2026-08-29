@@ -38,26 +38,8 @@ function openLink() {
   <div
     class="group relative flex h-24 items-center gap-3 rounded-xl border border-default bg-white p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
   >
-    <!-- Top-right edit/delete buttons -->
-    <div class="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-0 transition group-hover:opacity-100" @click.stop>
-      <!-- Description info icon (always visible when description exists) -->
-      <UTooltip
-        v-if="link.description"
-        :content="{ side: 'top', align: 'center' }"
-        :ui="{ content: '!max-w-md !w-auto' }"
-      >
-        <template #content>
-          <div class="prose prose-sm max-w-none p-2 text-xs">
-            <BaseMarkdownViewer :content="link.description" />
-          </div>
-        </template>
-        <UButton
-          icon="i-lucide-alert-circle"
-          size="2xs"
-          color="neutral"
-          variant="ghost"
-        />
-      </UTooltip>
+    <!-- Top-right buttons (always visible) -->
+    <div class="absolute right-2 top-2 z-10 flex items-center gap-1" @click.stop>
       <UButton
         icon="i-lucide-pencil"
         size="2xs"
@@ -76,6 +58,24 @@ function openLink() {
         :loading="deleting"
         @confirm="emit('delete', link.id)"
       />
+      <!-- Description info icon (rightmost, only when description exists) -->
+      <UTooltip
+        v-if="link.description"
+        :content="{ side: 'top', align: 'center' }"
+        :ui="{ content: '!max-w-md !w-auto' }"
+      >
+        <template #content>
+          <div class="prose prose-sm max-w-none p-2 text-xs">
+            <BaseMarkdownViewer :content="link.description" />
+          </div>
+        </template>
+        <UButton
+          icon="i-lucide-alert-circle"
+          size="2xs"
+          color="neutral"
+          variant="ghost"
+        />
+      </UTooltip>
     </div>
 
     <!-- Clickable area (opens the link) -->
