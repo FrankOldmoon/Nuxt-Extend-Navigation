@@ -107,6 +107,7 @@ async function confirmDelete(id: number) {
     <section class="border-b border-default bg-white">
       <div class="mx-auto max-w-5xl px-4 py-4">
         <div class="flex items-center gap-3">
+          <UColorModeButton />
           <UInput
             v-model="search"
             icon="i-lucide-search"
