@@ -2,9 +2,9 @@
 /**
  * Navigation home — replaces the host project's public home page.
  *
- * A single-page nav site: a hero with search, then all active categories each
- * showing their active links. Type-ahead filtering is client-side across
- * title/description/tags. SSR-driven via `useNavData` for hydration stability.
+ * A single-page nav site: a search bar across the top, then all active
+ * categories each showing their active links. Type-ahead filtering is
+ * client-side across title/description/tags.
  */
 import type { NavCategoryGroup } from '../../composables/useNav'
 import { useNavData } from '../../composables/useNav'
@@ -35,30 +35,24 @@ const isEmpty = computed(() => status.value === 'success' && filteredGroups.valu
 
 <template>
   <div class="min-h-screen bg-[#f7fafc]">
-    <!-- Hero -->
+    <!-- Search bar -->
     <section class="border-b border-default bg-white">
-      <div class="mx-auto max-w-5xl px-4 py-14 text-center">
-        <div class="mx-auto mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary">
-          <UIcon name="i-lucide-compass" class="h-4 w-4" />
-          {{ t('nav.hero.badge') }}
-        </div>
-        <h1 class="text-3xl font-bold text-highlighted sm:text-4xl">
-          {{ t('nav.hero.title') }}
-        </h1>
-        <p class="mx-auto mt-3 max-w-xl text-muted">
-          {{ t('nav.hero.subtitle') }}
-        </p>
-
-        <div class="mx-auto mt-8 max-w-md">
-          <UInput
-            v-model="search"
-            icon="i-lucide-search"
-            size="lg"
-            :placeholder="t('nav.hero.searchPlaceholder')"
-            class="w-full"
-            @keydown.esc="search = ''"
-          />
-        </div>
+      <div class="mx-auto flex max-w-5xl items-center gap-3 px-4 py-4">
+        <UInput
+          v-model="search"
+          icon="i-lucide-search"
+          size="lg"
+          :placeholder="t('nav.hero.searchPlaceholder')"
+          class="flex-1"
+          @keydown.esc="search = ''"
+        />
+        <UButton
+          icon="i-lucide-plus"
+          color="primary"
+          size="lg"
+          :to="'/dashboard/navLinks'"
+          :title="t('nav.addLink')"
+        />
       </div>
     </section>
 
@@ -91,14 +85,9 @@ const isEmpty = computed(() => status.value === 'success' && filteredGroups.valu
             v-for="l in g.links"
             :key="l.id"
             :link="l"
-            :featured="l.isFeatured"
           />
         </div>
       </div>
     </section>
-
-    <footer class="border-t border-default bg-white py-6">
-      <p class="text-center text-xs text-muted">{{ t('nav.footer') }}</p>
-    </footer>
   </div>
 </template>

@@ -35,12 +35,9 @@
   },
   "nav": {
     "hero": {
-      "badge": "精选导航",
-      "title": "网址导航",
-      "subtitle": "精选开发工具、AI 资源与效率工具的汇集。",
       "searchPlaceholder": "搜索标题、描述或标签…"
     },
-    "emptyNoResults": "没有找到匹配的链接，试试其他关键词。",
-    "footer": "Nuxt Admin — 网址导航"
+    "addLink": "添加链接",
+    "emptyNoResults": "没有找到匹配的链接，试试其他关键词。"
   }
 }

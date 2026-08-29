@@ -31,14 +31,15 @@ export default defineNuxtConfig({
       { code: 'zh', name: '中文', file: 'zh.json' }
     ]
   },
-  hooks: {
-    'pages:extend'(pages: Array<{ path: string; file?: string }>) {
-      // Find the index page — if it's NOT from this layer, remove it so
-      // the layer's own index page becomes the only `/` route.
-      const idx = pages.findIndex(p => p.path === '/')
-      if (idx !== -1 && pages[idx].file && !pages[idx].file!.startsWith(navPagesDir)) {
-        pages.splice(idx, 1)
-      }
-    }
-  }
+  // hooks: {
+  //   'pages:extend'(pages: Array<{ path: string; file?: string }>) {
+  //     // Find the index page — if it's NOT from this layer, remove it so
+  //     // the layer's own index page becomes the only `/` route.
+  //     const page = pages.find(p => p.path === '/')
+  //     if (page && page.file && !page.file.startsWith(navPagesDir)) {
+  //       const idx = pages.indexOf(page)
+  //       if (idx !== -1) pages.splice(idx, 1)
+  //     }
+  //   }
+  // }
 })

@@ -35,12 +35,9 @@
   },
   "nav": {
     "hero": {
-      "badge": "Curated Links",
-      "title": "Navigation",
-      "subtitle": "A curated collection of developer tools, AI resources and productivity links.",
       "searchPlaceholder": "Search links by title, description or tags…"
     },
-    "emptyNoResults": "No links match your search. Try a different keyword.",
-    "footer": "Nuxt Admin — Navigation"
+    "addLink": "Add a link",
+    "emptyNoResults": "No links match your search. Try a different keyword."
   }
 }
