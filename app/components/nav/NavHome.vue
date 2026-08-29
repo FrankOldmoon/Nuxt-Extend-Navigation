@@ -58,18 +58,20 @@ function onSaved() {
 }
 
 // ---- Delete ----
+const deleting = ref(false)
 async function confirmDelete(id: number) {
-  const ok = globalThis.confirm(t('common.confirmDelete'))
-  if (!ok) return
+  deleting.value = true
   try {
-    await $fetch('/api/dashboard/data/navLinks/batch', {
-      method: 'POST',
-      body: { action: 'soft-delete', ids: [id] }
+    await cPost('/api/dashboard/data/navLinks/batch', {
+      action: 'soft-delete',
+      ids: [id]
     })
     toast.add({ title: t('dashboard.crud.deleted'), color: 'success' })
     refresh()
   } catch (e) {
     toast.add({ title: t('dashboard.crud.deleteFailed'), color: 'error', description: extractErrorMessage(e) })
+  } finally {
+    deleting.value = false
   }
 }
 </script>
@@ -125,6 +127,7 @@ async function confirmDelete(id: number) {
           <div v-for="l in g.links" :key="l.id" class="flex">
             <NavLinkCard
               :link="l"
+              :deleting="deleting"
               @edit="openEdit"
               @delete="confirmDelete"
             />

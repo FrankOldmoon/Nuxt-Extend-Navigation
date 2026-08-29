@@ -11,6 +11,7 @@ import { trackNavClick } from '../../composables/useNav'
 
 const props = defineProps<{
   link: NavLinkView
+  deleting?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -47,13 +48,15 @@ function openLink() {
         title="Edit"
         @click="emit('edit', link.id)"
       />
-      <UButton
+      <BaseConfirmButton
         icon="i-lucide-trash-2"
         size="2xs"
+        square
         color="error"
         variant="ghost"
         title="Delete"
-        @click="emit('delete', link.id)"
+        :loading="deleting"
+        @confirm="emit('delete', link.id)"
       />
     </div>
 
