@@ -62,10 +62,10 @@ function openLink() {
       <UTooltip
         v-if="link.description"
         :content="{ side: 'top', align: 'center' }"
-        :ui="{ content: '!max-w-md !w-auto' }"
+        :ui="{ content: '!max-w-sm !overflow-hidden' }"
       >
         <template #content>
-          <div class="prose prose-sm max-w-none p-2 text-xs">
+          <div class="prose prose-xs max-w-none p-2 text-xs">
             <BaseMarkdownViewer :source="link.description" />
           </div>
         </template>
