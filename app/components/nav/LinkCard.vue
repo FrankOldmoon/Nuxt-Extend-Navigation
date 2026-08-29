@@ -40,6 +40,24 @@ function openLink() {
   >
     <!-- Top-right edit/delete buttons -->
     <div class="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-0 transition group-hover:opacity-100" @click.stop>
+      <!-- Description info icon (always visible when description exists) -->
+      <UTooltip
+        v-if="link.description"
+        :content="{ side: 'top', align: 'center' }"
+        :ui="{ content: '!max-w-md !w-auto' }"
+      >
+        <template #content>
+          <div class="prose prose-sm max-w-none p-2 text-xs">
+            <BaseMarkdownViewer :content="link.description" />
+          </div>
+        </template>
+        <UButton
+          icon="i-lucide-alert-circle"
+          size="2xs"
+          color="neutral"
+          variant="ghost"
+        />
+      </UTooltip>
       <UButton
         icon="i-lucide-pencil"
         size="2xs"
@@ -76,22 +94,8 @@ function openLink() {
         <span v-else class="truncate text-sm font-semibold text-highlighted group-hover:text-primary">
           {{ link.title }}
         </span>
-        <!-- Summary (always visible) + hover tooltip shows markdown description -->
-        <UTooltip
-          v-if="link.description"
-          :content="{ side: 'top', align: 'center' }"
-          :ui="{ content: '!max-w-md !w-auto' }"
-        >
-          <template #content>
-            <div class="prose prose-sm max-w-none p-2 text-xs">
-              <BaseMarkdownViewer :content="link.description" />
-            </div>
-          </template>
-          <span class="line-clamp-2 text-xs text-muted">{{ link.summary || link.description.slice(0, 80) }}</span>
-        </UTooltip>
-        <span v-else-if="link.summary" class="line-clamp-2 text-xs text-muted">
-          {{ link.summary }}
-        </span>
+        <!-- Summary text -->
+        <span class="line-clamp-2 text-xs text-muted">{{ link.summary }}</span>
         <span v-if="link.tags.length" class="mt-0.5 flex flex-wrap gap-1">
           <span
             v-for="tag in link.tags"

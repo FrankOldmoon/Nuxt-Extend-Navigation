@@ -128,15 +128,21 @@ async function seedDefaults(): Promise<void> {
 
     await db.insert(navSchema.navLinks).values([
       {
-        title: 'GitHub', url: 'https://github.com', description: 'The world’s leading platform for software development.',
+        title: 'GitHub', url: 'https://github.com',
+        summary: '代码托管与协作平台',
+        description: 'The world\'s leading platform for **software development** and collaboration. Host code, manage projects, and build software with millions of developers worldwide.',
         logo: 'i-lucide-brand-github', categoryId: dev.id, isFeatured: true, sortOrder: 1
       },
       {
-        title: 'Stack Overflow', url: 'https://stackoverflow.com', description: 'Q&A for professional and enthusiast programmers.',
+        title: 'Stack Overflow', url: 'https://stackoverflow.com',
+        summary: '程序员问答社区',
+        description: 'Q&A for professional and **enthusiast programmers**. Find answers to your coding questions, share knowledge, and build your career.',
         logo: 'https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico', categoryId: dev.id, sortOrder: 2
       },
       {
-        title: 'ChatGPT', url: 'https://chatgpt.com', description: 'Conversational AI assistant by OpenAI.',
+        title: 'ChatGPT', url: 'https://chatgpt.com',
+        summary: 'AI 对话助手',
+        description: 'Conversational **AI assistant** by OpenAI. Get instant answers, generate content, brainstorm ideas, and automate tasks with natural language.',
         logo: 'i-lucide-bot', categoryId: ai.id, isFeatured: true, sortOrder: 1
       }
     ])
