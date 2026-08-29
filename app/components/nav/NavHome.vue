@@ -6,6 +6,7 @@
  * categories each showing their active links. Type-ahead filtering is
  * client-side across title/description/tags.
  *
+ * Category buttons below the search bar allow multi-select filtering.
  * Edit/delete on cards use an inline editor modal (NavLinkEditorModal) and
  * the generic batch soft-delete API, matching the blog post card pattern.
  */
@@ -19,13 +20,34 @@ const { data: rawGroups, status, refresh } = useNavData()
 const search = ref('')
 const q = computed(() => search.value.trim().toLowerCase())
 
+// Multi-select category filter
+const selectedCategoryIds = ref<Set<number>>(new Set())
+
+function toggleCategory(id: number) {
+  const s = new Set(selectedCategoryIds.value)
+  if (s.has(id)) s.delete(id)
+  else s.add(id)
+  selectedCategoryIds.value = s
+}
+
+function isSelected(id: number): boolean {
+  return selectedCategoryIds.value.has(id)
+}
+
+function clearCategories() {
+  selectedCategoryIds.value = new Set()
+}
+
+const hasCategoryFilter = computed(() => selectedCategoryIds.value.size > 0)
+
 const filteredGroups = computed<NavCategoryGroup[]>(() => {
   const list = rawGroups.value ?? []
-  if (!q.value) return list
   return list
+    .filter((g) => !hasCategoryFilter.value || isSelected(g.id))
     .map((g) => ({
       ...g,
       links: g.links.filter((l) =>
+        !q.value ||
         l.title.toLowerCase().includes(q.value) ||
         (l.description ?? '').toLowerCase().includes(q.value) ||
         l.tags.some((tag) => tag.toLowerCase().includes(q.value))
@@ -35,6 +57,9 @@ const filteredGroups = computed<NavCategoryGroup[]>(() => {
 })
 
 const isEmpty = computed(() => status.value === 'success' && filteredGroups.value.length === 0)
+
+// All available categories (for the filter buttons)
+const allCategories = computed(() => (rawGroups.value ?? []).map(g => ({ id: g.id, name: g.name, icon: g.icon })))
 
 // ---- Editor modal state ----
 const editorOpen = ref(false)
@@ -80,22 +105,46 @@ async function confirmDelete(id: number) {
   <div class="min-h-screen bg-[#f7fafc]">
     <!-- Search bar -->
     <section class="border-b border-default bg-white">
-      <div class="mx-auto flex max-w-5xl items-center gap-3 px-4 py-4">
-        <UInput
-          v-model="search"
-          icon="i-lucide-search"
-          size="lg"
-          :placeholder="t('nav.hero.searchPlaceholder')"
-          class="flex-1"
-          @keydown.esc="search = ''"
-        />
-        <UButton
-          icon="i-lucide-plus"
-          color="primary"
-          size="lg"
-          :title="t('nav.addLink')"
-          @click="openCreate"
-        />
+      <div class="mx-auto max-w-5xl px-4 py-4">
+        <div class="flex items-center gap-3">
+          <UInput
+            v-model="search"
+            icon="i-lucide-search"
+            size="lg"
+            :placeholder="t('nav.hero.searchPlaceholder')"
+            class="flex-1"
+            @keydown.esc="search = ''"
+          />
+          <UButton
+            icon="i-lucide-plus"
+            color="primary"
+            size="lg"
+            :title="t('nav.addLink')"
+            @click="openCreate"
+          />
+        </div>
+
+        <!-- Category filter buttons -->
+        <div v-if="allCategories.length" class="mt-3 flex flex-wrap items-center gap-2">
+          <UButton
+            v-for="cat in allCategories"
+            :key="cat.id"
+            size="xs"
+            :color="isSelected(cat.id) ? 'primary' : 'neutral'"
+            :variant="isSelected(cat.id) ? 'solid' : 'ghost'"
+            @click="toggleCategory(cat.id)"
+          >
+            {{ cat.name }}
+          </UButton>
+          <UButton
+            v-if="hasCategoryFilter"
+            size="xs"
+            color="neutral"
+            variant="ghost"
+            icon="i-lucide-x"
+            @click="clearCategories"
+          />
+        </div>
       </div>
     </section>
 
