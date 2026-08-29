@@ -66,7 +66,7 @@ function openLink() {
       >
         <template #content>
           <div class="prose prose-sm max-w-none p-2 text-xs">
-            <BaseMarkdownViewer :content="link.description" />
+            <BaseMarkdownViewer :source="link.description" />
           </div>
         </template>
         <span class="flex h-5 w-5 cursor-pointer items-center justify-center rounded hover:bg-muted">
