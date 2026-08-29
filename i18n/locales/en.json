@@ -1,0 +1,46 @@
+{
+  "dashboard": {
+    "tables": {
+      "navCategories": "Nav Categories",
+      "navLinks": "Nav Links"
+    },
+    "fields": {
+      "navCategories": {
+        "id": "ID",
+        "name": "Name",
+        "slug": "Slug",
+        "description": "Description",
+        "icon": "Icon",
+        "sortOrder": "Sort order",
+        "isActive": "Active",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at"
+      },
+      "navLinks": {
+        "id": "ID",
+        "title": "Title",
+        "url": "URL",
+        "logo": "Logo",
+        "description": "Description",
+        "tags": "Tags",
+        "categoryId": "Category",
+        "isFeatured": "Featured",
+        "isActive": "Active",
+        "sortOrder": "Sort order",
+        "clickCount": "Clicks",
+        "createdAt": "Created at",
+        "updatedAt": "Updated at"
+      }
+    }
+  },
+  "nav": {
+    "hero": {
+      "badge": "Curated Links",
+      "title": "Navigation",
+      "subtitle": "A curated collection of developer tools, AI resources and productivity links.",
+      "searchPlaceholder": "Search links by title, description or tags…"
+    },
+    "emptyNoResults": "No links match your search. Try a different keyword.",
+    "footer": "Nuxt Admin — Navigation"
+  }
+}

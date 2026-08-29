@@ -1,0 +1,46 @@
+{
+  "dashboard": {
+    "tables": {
+      "navCategories": "导航分类",
+      "navLinks": "导航链接"
+    },
+    "fields": {
+      "navCategories": {
+        "id": "ID",
+        "name": "名称",
+        "slug": "标识",
+        "description": "描述",
+        "icon": "图标",
+        "sortOrder": "排序",
+        "isActive": "启用",
+        "createdAt": "创建时间",
+        "updatedAt": "更新时间"
+      },
+      "navLinks": {
+        "id": "ID",
+        "title": "标题",
+        "url": "链接",
+        "logo": "图标",
+        "description": "描述",
+        "tags": "标签",
+        "categoryId": "分类",
+        "isFeatured": "推荐",
+        "isActive": "启用",
+        "sortOrder": "排序",
+        "clickCount": "点击量",
+        "createdAt": "创建时间",
+        "updatedAt": "更新时间"
+      }
+    }
+  },
+  "nav": {
+    "hero": {
+      "badge": "精选导航",
+      "title": "网址导航",
+      "subtitle": "精选开发工具、AI 资源与效率工具的汇集。",
+      "searchPlaceholder": "搜索标题、描述或标签…"
+    },
+    "emptyNoResults": "没有找到匹配的链接，试试其他关键词。",
+    "footer": "Nuxt Admin — 网址导航"
+  }
+}
