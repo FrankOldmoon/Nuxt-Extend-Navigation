@@ -4,7 +4,7 @@
  * tags. Clicking opens the target in a new tab and fire-and-forget increments
  * the click counter via `trackNavClick`.
  *
- * Top-right edit/delete buttons link to the admin dashboard for management.
+ * Top-right edit/delete buttons emit events to the parent for handling.
  */
 import type { NavLinkView } from '../../composables/useNav'
 import { trackNavClick } from '../../composables/useNav'
@@ -13,8 +13,10 @@ const props = defineProps<{
   link: NavLinkView
 }>()
 
-const { t } = useI18n()
-const toast = useToast()
+const emit = defineEmits<{
+  edit: [id: number]
+  delete: [id: number]
+}>()
 
 function openLink() {
   try {
@@ -29,26 +31,6 @@ function openLink() {
   }
   trackNavClick(props.link.id)
 }
-
-const deleting = ref(false)
-async function confirmDelete() {
-  const ok = globalThis.confirm(t('common.confirmDelete'))
-  if (!ok) return
-  deleting.value = true
-  try {
-    await $fetch('/api/dashboard/data/navLinks/batch', {
-      method: 'POST',
-      body: { action: 'soft-delete', ids: [props.link.id] }
-    })
-    toast.add({ title: t('dashboard.crud.deleted'), color: 'success' })
-    // Reload the page to reflect the deletion
-    globalThis.location.reload()
-  } catch (e) {
-    toast.add({ title: t('dashboard.crud.deleteFailed'), color: 'error', description: extractErrorMessage(e) })
-  } finally {
-    deleting.value = false
-  }
-}
 </script>
 
 <template>
@@ -56,24 +38,22 @@ async function confirmDelete() {
     class="group relative flex h-full w-full items-center gap-3 rounded-xl border border-default bg-white p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
   >
     <!-- Top-right edit/delete buttons -->
-    <div class="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-0 transition group-hover:opacity-100">
+    <div class="absolute right-2 top-2 z-10 flex items-center gap-1 opacity-0 transition group-hover:opacity-100" @click.stop>
       <UButton
         icon="i-lucide-pencil"
         size="2xs"
         color="neutral"
         variant="ghost"
-        :title="t('common.edit')"
-        :to="`/dashboard/navLinks?id=${link.id}`"
-        @click.stop
+        title="Edit"
+        @click="emit('edit', link.id)"
       />
       <UButton
         icon="i-lucide-trash-2"
         size="2xs"
         color="error"
         variant="ghost"
-        :title="t('common.delete')"
-        :loading="deleting"
-        @click.stop="confirmDelete"
+        title="Delete"
+        @click="emit('delete', link.id)"
       />
     </div>
 

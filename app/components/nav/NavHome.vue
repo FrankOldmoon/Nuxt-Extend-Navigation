@@ -5,12 +5,16 @@
  * A single-page nav site: a search bar across the top, then all active
  * categories each showing their active links. Type-ahead filtering is
  * client-side across title/description/tags.
+ *
+ * Edit/delete on cards use an inline editor modal (NavLinkEditorModal) and
+ * the generic batch soft-delete API, matching the blog post card pattern.
  */
 import type { NavCategoryGroup } from '../../composables/useNav'
 import { useNavData } from '../../composables/useNav'
 
 const { t } = useI18n()
-const { data: rawGroups, status } = useNavData()
+const toast = useToast()
+const { data: rawGroups, status, refresh } = useNavData()
 
 const search = ref('')
 const q = computed(() => search.value.trim().toLowerCase())
@@ -31,6 +35,43 @@ const filteredGroups = computed<NavCategoryGroup[]>(() => {
 })
 
 const isEmpty = computed(() => status.value === 'success' && filteredGroups.value.length === 0)
+
+// ---- Editor modal state ----
+const editorOpen = ref(false)
+const editorMode = ref<'create' | 'update'>('create')
+const editorItem = ref<Record<string, unknown> | null>(null)
+
+function openEdit(id: number) {
+  editorMode.value = 'update'
+  editorItem.value = { id }
+  editorOpen.value = true
+}
+
+function openCreate() {
+  editorMode.value = 'create'
+  editorItem.value = null
+  editorOpen.value = true
+}
+
+function onSaved() {
+  refresh()
+}
+
+// ---- Delete ----
+async function confirmDelete(id: number) {
+  const ok = globalThis.confirm(t('common.confirmDelete'))
+  if (!ok) return
+  try {
+    await $fetch('/api/dashboard/data/navLinks/batch', {
+      method: 'POST',
+      body: { action: 'soft-delete', ids: [id] }
+    })
+    toast.add({ title: t('dashboard.crud.deleted'), color: 'success' })
+    refresh()
+  } catch (e) {
+    toast.add({ title: t('dashboard.crud.deleteFailed'), color: 'error', description: extractErrorMessage(e) })
+  }
+}
 </script>
 
 <template>
@@ -50,8 +91,8 @@ const isEmpty = computed(() => status.value === 'success' && filteredGroups.valu
           icon="i-lucide-plus"
           color="primary"
           size="lg"
-          :to="'/dashboard/navLinks'"
           :title="t('nav.addLink')"
+          @click="openCreate"
         />
       </div>
     </section>
@@ -82,10 +123,22 @@ const isEmpty = computed(() => status.value === 'success' && filteredGroups.valu
 
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <div v-for="l in g.links" :key="l.id" class="h-full">
-            <NavLinkCard :link="l" />
+            <NavLinkCard
+              :link="l"
+              @edit="openEdit"
+              @delete="confirmDelete"
+            />
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Editor modal -->
+    <NavLinkEditorModal
+      v-model:open="editorOpen"
+      :mode="editorMode"
+      :item="editorItem"
+      @saved="onSaved"
+    />
   </div>
 </template>
