@@ -2,34 +2,26 @@
 /**
  * Smart logo renderer for nav links/categories.
  *
- * Accepts a stored `logo` value (URL / Iconify class / inline SVG) plus an
- * optional fallback color, and renders the matching visual.
+ * Accepts a stored `logo` value (URL / Iconify class / inline SVG) and
+ * renders the matching visual. Falls back to a link icon when empty.
  */
 import { parseLogo } from '../../composables/useNav'
 
 const props = withDefaults(defineProps<{
   logo?: string | null
-  /** Tailwind bg class used for the fallback letter chip */
-  color?: string
   size?: string
 }>(), {
   logo: null,
-  color: 'bg-primary/10 text-primary',
   size: 'h-9 w-9'
 })
 
 const parsed = computed(() => parseLogo(props.logo))
-// Fallback letter from the logo value or a generic icon.
-const fallback = computed(() => {
-  if (props.logo && !parsed.value.src) return '?'
-  return ''
-})
 </script>
 
 <template>
   <div
     class="flex items-center justify-center overflow-hidden rounded-lg"
-    :class="[size, parsed.kind === 'none' ? color : '']"
+    :class="[size]"
   >
     <img
       v-if="parsed.kind === 'url'"
@@ -50,7 +42,9 @@ const fallback = computed(() => {
     />
     <span
       v-else
-      class="text-lg font-bold"
-    >{{ fallback || '—' }}</span>
+      class="flex h-full w-full items-center justify-center text-muted"
+    >
+      <UIcon name="i-lucide-link" class="h-1/2 w-1/2" />
+    </span>
   </div>
 </template>

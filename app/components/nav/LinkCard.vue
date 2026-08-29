@@ -19,6 +19,7 @@ const emit = defineEmits<{
   delete: [id: number]
 }>()
 
+const { t } = useI18n()
 const descOpen = ref(false)
 
 function openLink() {
@@ -47,7 +48,7 @@ function openLink() {
         size="2xs"
         color="neutral"
         variant="ghost"
-        title="Edit"
+        :title="t('common.edit')"
         @click="emit('edit', link.id)"
       />
       <BaseConfirmButton
@@ -56,7 +57,7 @@ function openLink() {
         square
         color="error"
         variant="ghost"
-        title="Delete"
+        :title="t('common.delete')"
         :loading="deleting"
         @confirm="emit('delete', link.id)"
       />
