@@ -45,7 +45,7 @@ export const navLinkMeta: TableMeta = {
     { key: 'logo', label: 'Logo', type: 'icon', nullable: true,
       showInForm: true, showInTable: true, showInDetail: true, editable: true
     },
-    { key: 'description', label: 'Description', type: 'markdown', nullable: true, showInForm: true, showInTable: false, showInDetail: true, editable: true },
+    { key: 'description', label: 'Description', type: 'richEditor', nullable: true, showInForm: true, showInTable: false, showInDetail: true, editable: true, widthClass: 'w-48' },
     { key: 'summary', label: 'Summary', type: 'text', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { maxLength: 255 } },
     { key: 'tags', label: 'Tags', type: 'tags', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },
     { key: 'categoryId', label: 'Category', type: 'relation', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, relation: { table: 'navCategories', labelKey: 'name', valueKey: 'id', creatable: true, slugField: 'slug' } },
@@ -58,7 +58,7 @@ export const navLinkMeta: TableMeta = {
   ],
   features: {
     softDelete: true,
-    search: ['title', 'url', 'description', 'tags'],
+    search: ['title', 'url', 'tags'],
     defaultSort: { field: 'sortOrder', order: 'asc' }
   }
 }

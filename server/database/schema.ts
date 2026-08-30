@@ -46,7 +46,8 @@ export const navLinks = pgTable('nav_links',
     id: serial('id').primaryKey(),
     title: varchar('title', { length: 255 }).notNull(),
     url: text('url').notNull(),
-    description: text('description'),
+    // Rich-text description — stored as a Tiptap JSON document (jsonb).
+    description: jsonb('description').$type<Record<string, unknown> | null>(),
     summary: varchar('summary', { length: 255 }),
     // Logo/favicon representation. May contain, in precedence order:
     //   1. a plain URL (https://… / /api/files/…)  → rendered as <img>

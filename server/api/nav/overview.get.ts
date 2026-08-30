@@ -16,7 +16,7 @@ export interface NavOverviewGroup {
     id: number
     title: string
     url: string
-    description: string | null
+    description: Record<string, unknown> | null
     summary: string | null
     logo: string | null
     tags: string[]

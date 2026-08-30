@@ -39,6 +39,20 @@ function hydrate(group: NavCategoryGroup): NavCategoryGroup {
   }
 }
 
+/** Extract plain text from a Tiptap JSON document (used for client-side search). */
+export function richTextToPlain(content: Record<string, unknown> | null | undefined): string {
+  if (!content || typeof content !== 'object') return ''
+  const parts: string[] = []
+  const walk = (node: any) => {
+    if (!node) return
+    if (node.type === 'text' && typeof node.text === 'string') parts.push(node.text)
+    const children = node.content
+    if (Array.isArray(children)) children.forEach(walk)
+  }
+  walk(content)
+  return parts.join(' ')
+}
+
 /** Fetch all active categories + their active links from the module API. */
 export function useNavData() {
   return useAsyncData<NavCategoryGroup[]>('nav-groups', async () => {

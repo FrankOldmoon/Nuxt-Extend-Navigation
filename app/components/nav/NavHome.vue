@@ -11,7 +11,7 @@
  * the generic batch soft-delete API, matching the blog post card pattern.
  */
 import type { NavCategoryGroup } from '../../composables/useNav'
-import { useNavData } from '../../composables/useNav'
+import { useNavData, richTextToPlain } from '../../composables/useNav'
 
 const { t } = useI18n()
 const toast = useToast()
@@ -49,7 +49,7 @@ const filteredGroups = computed<NavCategoryGroup[]>(() => {
       links: g.links.filter((l) =>
         !q.value ||
         l.title.toLowerCase().includes(q.value) ||
-        (l.description ?? '').toLowerCase().includes(q.value) ||
+        richTextToPlain(l.description).toLowerCase().includes(q.value) ||
         l.tags.some((tag) => tag.toLowerCase().includes(q.value))
       )
     }))

@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS nav_links (
   id          serial PRIMARY KEY,
   title       varchar(255) NOT NULL,
   url         text         NOT NULL,
-  description text,
+  description jsonb,
   logo        text,
   tags        jsonb        NOT NULL DEFAULT '[]',
   category_id integer      REFERENCES nav_categories(id) ON DELETE SET NULL,
@@ -53,6 +53,35 @@ ALTER TABLE nav_links     ADD COLUMN IF NOT EXISTS is_active boolean NOT NULL DE
 
 -- Upgrade path: summary column for the short card text.
 ALTER TABLE nav_links ADD COLUMN IF NOT EXISTS summary varchar(255);
+
+-- Upgrade path: nav_links.description was a text column (markdown) and is now
+-- jsonb (Tiptap JSON document). On a database that predates the change, the
+-- column still has data_type=text: convert it in place via a temp column so
+-- the column name and any existing text content are preserved.
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'nav_links' AND column_name = 'description' AND data_type = 'text'
+  ) THEN
+    ALTER TABLE nav_links ADD COLUMN description_jsonb jsonb;
+    UPDATE nav_links
+      SET description_jsonb = jsonb_build_object(
+            'type', 'doc',
+            'content', jsonb_build_array(
+              jsonb_build_object(
+                'type', 'paragraph',
+                'content', jsonb_build_array(
+                  jsonb_build_object('type', 'text', 'text', COALESCE(description, ''))
+                )
+              )
+            )
+          )
+      WHERE description_jsonb IS NULL AND description IS NOT NULL AND description <> '';
+    ALTER TABLE nav_links DROP COLUMN IF EXISTS description;
+    ALTER TABLE nav_links RENAME COLUMN description_jsonb TO description;
+  END IF;
+END $$;
 `
 
 /**

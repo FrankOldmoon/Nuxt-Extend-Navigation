@@ -27,6 +27,11 @@ import { navCategoryMeta, navLinkMeta } from '../utils/fields'
 
 const DASHBOARD_MENU_KEY = 'dashboard.menu'
 
+/** Build a Tiptap JSON doc from plain text (single paragraph) for the rich text `description` column. */
+function richDoc(text: string): Record<string, unknown> {
+  return { type: 'doc', content: [{ type: 'paragraph', content: [{ type: 'text', text }] }] }
+}
+
 /** Menu entries contributed by this module (merged into the persisted menu). */
 const NAV_MENU = [
   { table: 'navCategories', label: 'Nav Categories', icon: 'i-lucide-folder', order: 82 },
@@ -130,19 +135,19 @@ async function seedDefaults(): Promise<void> {
       {
         title: 'GitHub', url: 'https://github.com',
         summary: '代码托管与协作平台',
-        description: 'The world\'s leading platform for **software development** and collaboration. Host code, manage projects, and build software with millions of developers worldwide.',
+        description: richDoc('The world\'s leading platform for software development and collaboration. Host code, manage projects, and build software with millions of developers worldwide.'),
         logo: 'i-lucide-brand-github', categoryId: dev.id, isFeatured: true, sortOrder: 1
       },
       {
         title: 'Stack Overflow', url: 'https://stackoverflow.com',
         summary: '程序员问答社区',
-        description: 'Q&A for professional and **enthusiast programmers**. Find answers to your coding questions, share knowledge, and build your career.',
+        description: richDoc('Q&A for professional and enthusiast programmers. Find answers to your coding questions, share knowledge, and build your career.'),
         logo: 'https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico', categoryId: dev.id, sortOrder: 2
       },
       {
         title: 'ChatGPT', url: 'https://chatgpt.com',
         summary: 'AI 对话助手',
-        description: 'Conversational **AI assistant** by OpenAI. Get instant answers, generate content, brainstorm ideas, and automate tasks with natural language.',
+        description: richDoc('Conversational AI assistant by OpenAI. Get instant answers, generate content, brainstorm ideas, and automate tasks with natural language.'),
         logo: 'i-lucide-bot', categoryId: ai.id, isFeatured: true, sortOrder: 1
       }
     ])

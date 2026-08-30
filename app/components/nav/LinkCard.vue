@@ -71,8 +71,8 @@ function openLink() {
       </span>
       <UModal v-model:open="descOpen" :title="link.title" class="max-w-lg">
         <template #body>
-          <div class="prose prose-sm max-w-none p-4">
-            <BaseMarkdownViewer :source="link.description" />
+          <div class="p-4">
+            <BaseUeditorRender :json="link.description" />
           </div>
         </template>
       </UModal>
