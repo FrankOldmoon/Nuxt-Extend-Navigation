@@ -1,8 +1,7 @@
 <script setup lang="ts">
 /**
- * Navigation home — this page lives at the layer's `app/pages/index.vue`, so
- * it overrides the host project's root `/` route and turns the public home
- * into the navigation site.
+ * Navigation home — intentionally renders WITHOUT the default layout
+ * (layout: false), so it acts as a standalone, full-screen landing page.
  */
 definePageMeta({ layout: false })
 useSeoMeta({
