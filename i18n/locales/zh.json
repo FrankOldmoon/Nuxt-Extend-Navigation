@@ -37,6 +37,8 @@
     "hero": {
       "searchPlaceholder": "搜索标题、描述或标签…"
     },
+    "pageTitle": "校园门户",
+    "pageDescription": "学校 AI、学习与工具平台导航入口。",
     "addLink": "添加链接",
     "emptyNoResults": "没有找到匹配的链接，试试其他关键词。"
   }
