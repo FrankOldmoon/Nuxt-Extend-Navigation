@@ -25,6 +25,8 @@ export const navCategories = pgTable('nav_categories',
   {
     id: serial('id').primaryKey(),
     name: varchar('name', { length: 120 }).notNull(),
+    // Localized (Chinese) name; falls back to `name` when empty.
+    nameZh: varchar('name_zh', { length: 120 }),
     slug: varchar('slug', { length: 160 }).notNull().unique(),
     description: text('description'),
     // Iconify icon class shown as the category header (e.g. i-lucide-globe).
@@ -45,10 +47,14 @@ export const navLinks = pgTable('nav_links',
   {
     id: serial('id').primaryKey(),
     title: varchar('title', { length: 255 }).notNull(),
+    // Localized (Chinese) title; falls back to `title` when empty.
+    titleZh: varchar('title_zh', { length: 255 }),
     url: text('url').notNull(),
     // Rich-text description — stored as a Tiptap JSON document (jsonb).
     description: jsonb('description').$type<Record<string, unknown> | null>(),
     summary: varchar('summary', { length: 255 }),
+    // Localized (Chinese) summary; falls back to `summary` when empty.
+    summaryZh: varchar('summary_zh', { length: 255 }),
     // Logo/favicon representation. May contain, in precedence order:
     //   1. a plain URL (https://… / /api/files/…)  → rendered as <img>
     //   2. an Iconify class (i-lucide-globe)       → rendered as <UIcon>
