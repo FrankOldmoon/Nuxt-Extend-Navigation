@@ -10,11 +10,17 @@
  * The returned `logo` is always an https URL, so it renders as <img>.
  */
 import { createError } from 'h3'
+import { requireDashboardAccess } from '~~/server/utils/auth'
+import { isHostnameBlocked } from '../../../utils/ssrfGuard'
 
 const FALLBACK_FAVICON = (hostname: string, size = 32) =>
   `https://www.google.com/s2/favicons?domain=${encodeURIComponent(hostname)}&sz=${size}`
 
 export default defineEventHandler(async (event) => {
+  // Only dashboard editors may resolve favicons (the fetched URL becomes a
+  // navLink `logo`), and we never proxy arbitrary hosts for anonymous users.
+  await requireDashboardAccess(event, 'navLinks', 'update')
+
   const body = await readBody<{ url?: string }>(event)
   const raw = String(body?.url ?? '').trim()
   if (!raw) throw createError({ statusCode: 400, statusMessage: 'url is required' })
@@ -27,6 +33,11 @@ export default defineEventHandler(async (event) => {
   }
   if (!['http:', 'https:'].includes(parsed.protocol)) {
     throw createError({ statusCode: 400, statusMessage: 'only http(s) urls are supported' })
+  }
+
+  // SSRF guard: refuse loopback / link-local / private / reserved targets.
+  if (await isHostnameBlocked(parsed.hostname)) {
+    throw createError({ statusCode: 400, statusMessage: 'unsafe url' })
   }
 
   const origin = parsed.origin

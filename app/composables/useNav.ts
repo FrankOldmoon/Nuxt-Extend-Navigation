@@ -8,6 +8,7 @@
  * into a descriptor the template can render for `<img>`, `<UIcon>` or raw HTML.
  */
 import type { NavLink, NavCategory } from '../../server/database/schema'
+import { $fetch } from 'ofetch'
 
 export interface NavLinkView extends Omit<NavLink, 'tags'> {
   tags: string[]
