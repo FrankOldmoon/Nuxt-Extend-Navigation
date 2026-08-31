@@ -56,8 +56,12 @@ export function richTextToPlain(content: Record<string, unknown> | null | undefi
 
 /** Fetch all active categories + their active links from the module API. */
 export function useNavData() {
+  // useRequestFetch() injects the internal server base URL during SSR so the
+  // relative path resolves; a bare $fetch('ofetch') fails with
+  // "Failed to parse URL" on the server.
+  const requestFetch = useRequestFetch()
   return useAsyncData<NavCategoryGroup[]>('nav-groups', async () => {
-    const raw = await $fetch<NavCategoryGroup[]>('/api/nav/overview')
+    const raw = await requestFetch<NavCategoryGroup[]>('/api/nav/overview')
     return raw.map(hydrate)
   }, { default: () => [] })
 }

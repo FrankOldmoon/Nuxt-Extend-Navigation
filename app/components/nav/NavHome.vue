@@ -15,6 +15,7 @@ import { useNavData, richTextToPlain } from '../../composables/useNav'
 
 const { t } = useI18n()
 const toast = useToast()
+const { isLoggedIn } = useAuth()
 const { data: rawGroups, status, refresh } = useNavData()
 
 const search = ref('')
@@ -104,7 +105,7 @@ async function confirmDelete(id: number) {
 <template>
   <div class="min-h-screen bg-default">
     <!-- Search bar -->
-    <section class="sticky top-0 z-50 border-b border-default bg-elevated">
+    <section class="sticky top-12 z-20 border-b border-default bg-elevated">
       <div class="mx-auto max-w-5xl px-4 py-4">
         <div class="flex items-center gap-3">
           <UColorModeButton />
@@ -117,6 +118,7 @@ async function confirmDelete(id: number) {
             @keydown.esc="search = ''"
           />
           <UButton
+            v-if="isLoggedIn"
             icon="i-lucide-plus"
             color="primary"
             size="lg"
