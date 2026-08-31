@@ -11,7 +11,7 @@
  */
 import { createError } from 'h3'
 import { requireDashboardAccess } from '~~/server/utils/auth'
-import { isHostnameBlocked } from '../../../utils/ssrfGuard'
+import { isHostnameBlocked } from '../../utils/ssrfGuard'
 
 const FALLBACK_FAVICON = (hostname: string, size = 32) =>
   `https://www.google.com/s2/favicons?domain=${encodeURIComponent(hostname)}&sz=${size}`
