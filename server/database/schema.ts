@@ -29,6 +29,8 @@ export const navCategories = pgTable('nav_categories',
     nameZh: varchar('name_zh', { length: 120 }),
     slug: varchar('slug', { length: 160 }).notNull().unique(),
     description: text('description'),
+    // Localized (Chinese) description; falls back to `description` when empty.
+    descriptionZh: text('description_zh'),
     // Iconify icon class shown as the category header (e.g. i-lucide-globe).
     icon: varchar('icon', { length: 64 }),
     sortOrder: integer('sort_order').notNull().default(0),

@@ -51,6 +51,7 @@ const filteredGroups = computed<NavCategoryGroup[]>(() => {
     .map((g) => ({
       ...g,
       name: pick(g.nameZh, g.name),
+      description: pick(g.descriptionZh, g.description),
       links: g.links
         .filter((l) =>
           !q.value ||

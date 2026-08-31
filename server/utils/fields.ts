@@ -21,6 +21,7 @@ export const navCategoryMeta: TableMeta = {
     { key: 'nameZh', label: 'Name (中文)', type: 'text', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { maxLength: 120 }, helpText: '中文名称，留空则显示英文 Name。' },
     { key: 'slug', label: 'Slug', type: 'text', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { required: true, maxLength: 160 }, helpText: 'URL segment for this category (unique).' },
     { key: 'description', label: 'Description', type: 'textarea', nullable: true, showInForm: true, showInTable: false, showInDetail: true, editable: true },
+    { key: 'descriptionZh', label: 'Description (中文)', type: 'textarea', nullable: true, showInForm: true, showInTable: false, showInDetail: true, editable: true, helpText: '中文描述，留空则显示英文 Description。' },
     { key: 'icon', label: 'Icon', type: 'icon', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, helpText: 'Iconify class (e.g. i-lucide-globe).' },
     { key: 'sortOrder', label: 'Sort order', type: 'number', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },
     { key: 'isActive', label: 'Active', type: 'boolean', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },

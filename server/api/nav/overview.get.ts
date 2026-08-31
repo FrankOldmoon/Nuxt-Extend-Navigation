@@ -12,6 +12,7 @@ export interface NavOverviewGroup {
   nameZh: string | null
   slug: string
   description: string | null
+  descriptionZh: string | null
   icon: string | null
   links: Array<{
     id: number
@@ -53,6 +54,7 @@ export default defineEventHandler(async (): Promise<NavOverviewGroup[]> => {
     nameZh: c.nameZh,
     slug: c.slug,
     description: c.description,
+    descriptionZh: c.descriptionZh,
     icon: c.icon,
     links: (byCategory.get(c.id) ?? []).map((l) => ({
       id: l.id,

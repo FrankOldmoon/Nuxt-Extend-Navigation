@@ -19,6 +19,7 @@ export interface NavCategoryGroup {
   nameZh: string | null
   slug: string
   description: string | null
+  descriptionZh: string | null
   icon: string | null
   links: NavLinkView[]
 }
