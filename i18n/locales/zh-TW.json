@@ -1,0 +1,45 @@
+{
+  "dashboard": {
+    "tables": {
+      "navCategories": "導航分類",
+      "navLinks": "導航連結"
+    },
+    "fields": {
+      "navCategories": {
+        "id": "ID",
+        "name": "名稱",
+        "slug": "標識",
+        "description": "描述",
+        "icon": "圖標",
+        "sortOrder": "排序",
+        "isActive": "啟用",
+        "createdAt": "創建時間",
+        "updatedAt": "更新時間"
+      },
+      "navLinks": {
+        "id": "ID",
+        "title": "標題",
+        "url": "連結",
+        "logo": "圖標",
+        "description": "描述",
+        "tags": "標籤",
+        "categoryId": "分類",
+        "isFeatured": "推薦",
+        "isActive": "啟用",
+        "sortOrder": "排序",
+        "clickCount": "點擊量",
+        "createdAt": "創建時間",
+        "updatedAt": "更新時間"
+      }
+    }
+  },
+  "nav": {
+    "hero": {
+      "searchPlaceholder": "搜索標題、描述或標籤…"
+    },
+    "addLink": "添加連結",
+    "emptyNoResults": "沒有找到匹配的連結，試試其他關鍵詞。",
+    "pageTitle": "校園門戶",
+    "pageDescription": "學校 AI、學習與工具平台導航入口。"
+  }
+}
