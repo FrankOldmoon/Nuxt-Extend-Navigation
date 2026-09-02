@@ -37,6 +37,8 @@
     "hero": {
       "searchPlaceholder": "Search links by title, description or tags…"
     },
+    "pageTitle": "Campus Portal",
+    "pageDescription": "School navigation portal for AI, learning and campus tools.",
     "addLink": "Add a link",
     "emptyNoResults": "No links match your search. Try a different keyword."
   }

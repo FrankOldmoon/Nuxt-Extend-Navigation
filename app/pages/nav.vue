@@ -1,7 +1,8 @@
 <script setup lang="ts">
+const { t } = useI18n()
 useSeoMeta({
-  title: 'Navigation',
-  description: 'A curated start-page of developer tools and productivity links.'
+  title: () => t('nav.pageTitle'),
+  description: () => t('nav.pageDescription')
 })
 </script>
 
