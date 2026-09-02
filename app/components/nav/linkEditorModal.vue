@@ -9,6 +9,7 @@
  * page. Emits `saved(link)` after a successful create/update.
  */
 import type { TableMetaWithOptions } from '~/types/dashboard'
+import { resolveNavFavicon } from '../../composables/useNav'
 
 const props = defineProps<{
   open: boolean
@@ -113,6 +114,30 @@ async function save() {
 function cancel() {
   emit('update:open', false)
 }
+
+// ---- Auto favicon on URL blur ----
+const faviconAutoLoading = ref(false)
+
+async function autoFetchFavicon() {
+  const url = String(form.value?.url ?? '').trim()
+  // Only auto-fill when the logo is not explicitly set yet, so a user-chosen
+  // icon/favicon is never overwritten while editing an existing link.
+  if (!url || String(form.value?.logo ?? '').trim()) return
+  faviconAutoLoading.value = true
+  try {
+    const logo = await resolveNavFavicon(url)
+    form.value = { ...form.value, logo }
+    toast.add({ title: t('nav.logo.faviconFetched'), color: 'success' })
+  } catch (e) {
+    toast.add({
+      title: t('nav.logo.faviconFailed'),
+      color: 'error',
+      description: extractErrorMessage(e)
+    })
+  } finally {
+    faviconAutoLoading.value = false
+  }
+}
 </script>
 
 <template>
@@ -133,7 +158,39 @@ function cancel() {
           v-model="form"
           :mode="modalMode"
           :errors="fieldErrors"
-        />
+        >
+          <template #form-url="{ modelValue, update }">
+            <div class="flex w-full items-center gap-2">
+              <UInput
+                :model-value="modelValue"
+                id="field-url"
+                type="url"
+                placeholder="https://example.com"
+                class="flex-1"
+                @update:model-value="update"
+                @blur="autoFetchFavicon"
+              />
+              <UIcon
+                v-if="faviconAutoLoading"
+                name="i-lucide-loader-2"
+                class="h-4 w-4 animate-spin shrink-0 text-primary"
+              />
+            </div>
+          </template>
+          <template #form-logo="{ update, form: f, patch: patchField }">
+            <NavLinkLogoField
+              :model-value="String(f?.logo ?? '')"
+              :url="String(f?.url ?? '')"
+              :color="String(f?.logoColor ?? '')"
+              @update:model-value="patchField('logo', $event)"
+              @update:color="patchField('logoColor', $event)"
+            />
+          </template>
+          <!-- logoColor is edited inline inside the logo field; hide this row -->
+          <template #form-logoColor>
+            <div class="h-0" />
+          </template>
+        </DashboardCrudForm>
       </div>
       <p v-else class="py-8 text-center text-muted">{{ t('dashboard.crud.loadingDetail') }}</p>
     </template>

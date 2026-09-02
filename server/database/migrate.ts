@@ -15,8 +15,10 @@ const DDL = `
 CREATE TABLE IF NOT EXISTS nav_categories (
   id          serial PRIMARY KEY,
   name        varchar(120)  NOT NULL,
+  name_zh     varchar(120),
   slug        varchar(160)  NOT NULL UNIQUE,
   description text,
+  description_zh text,
   icon        varchar(64),
   sort_order  integer       NOT NULL DEFAULT 0,
   is_active   boolean       NOT NULL DEFAULT true,
@@ -32,7 +34,9 @@ CREATE TABLE IF NOT EXISTS nav_links (
   title       varchar(255) NOT NULL,
   url         text         NOT NULL,
   description jsonb,
+  summary     varchar(255),
   logo        text,
+  logo_color  varchar(32),
   tags        jsonb        NOT NULL DEFAULT '[]',
   category_id integer      REFERENCES nav_categories(id) ON DELETE SET NULL,
   is_featured boolean      NOT NULL DEFAULT false,
@@ -53,6 +57,13 @@ ALTER TABLE nav_links     ADD COLUMN IF NOT EXISTS is_active boolean NOT NULL DE
 
 -- Upgrade path: summary column for the short card text.
 ALTER TABLE nav_links ADD COLUMN IF NOT EXISTS summary varchar(255);
+
+-- Upgrade path: localized (Chinese) name / description columns for categories.
+ALTER TABLE nav_categories ADD COLUMN IF NOT EXISTS name_zh varchar(120);
+ALTER TABLE nav_categories ADD COLUMN IF NOT EXISTS description_zh text;
+
+-- Upgrade path: icon colour for logo icon classes.
+ALTER TABLE nav_links ADD COLUMN IF NOT EXISTS logo_color varchar(32);
 
 -- Upgrade path: nav_links.description was a text column (markdown) and is now
 -- jsonb (Tiptap JSON document). On a database that predates the change, the

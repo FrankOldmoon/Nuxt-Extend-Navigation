@@ -17,12 +17,11 @@ export interface NavOverviewGroup {
   links: Array<{
     id: number
     title: string
-    titleZh: string | null
     url: string
     description: Record<string, unknown> | null
     summary: string | null
-    summaryZh: string | null
     logo: string | null
+    logoColor: string | null
     tags: string[]
     categoryId: number | null
     isFeatured: boolean
@@ -59,12 +58,11 @@ export default defineEventHandler(async (): Promise<NavOverviewGroup[]> => {
     links: (byCategory.get(c.id) ?? []).map((l) => ({
       id: l.id,
       title: l.title,
-      titleZh: l.titleZh,
       url: l.url,
       description: l.description,
       summary: l.summary,
-      summaryZh: l.summaryZh,
       logo: l.logo,
+      logoColor: l.logoColor,
       tags: l.tags,
       categoryId: l.categoryId,
       isFeatured: l.isFeatured,

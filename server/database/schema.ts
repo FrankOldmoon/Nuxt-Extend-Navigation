@@ -49,19 +49,18 @@ export const navLinks = pgTable('nav_links',
   {
     id: serial('id').primaryKey(),
     title: varchar('title', { length: 255 }).notNull(),
-    // Localized (Chinese) title; falls back to `title` when empty.
-    titleZh: varchar('title_zh', { length: 255 }),
     url: text('url').notNull(),
     // Rich-text description — stored as a Tiptap JSON document (jsonb).
     description: jsonb('description').$type<Record<string, unknown> | null>(),
     summary: varchar('summary', { length: 255 }),
-    // Localized (Chinese) summary; falls back to `summary` when empty.
-    summaryZh: varchar('summary_zh', { length: 255 }),
     // Logo/favicon representation. May contain, in precedence order:
     //   1. a plain URL (https://… / /api/files/…)  → rendered as <img>
     //   2. an Iconify class (i-lucide-globe)       → rendered as <UIcon>
     //   3. an inline <svg> string                  → rendered as raw HTML
     logo: text('logo'),
+    // Icon colour (a css colour / hex) applied only when `logo` is an
+    // Iconify class; ignored for image URLs and inline <svg>.
+    logoColor: varchar('logo_color', { length: 32 }),
     // Free-form tags (matches the host `tags` convention).
     tags: jsonb('tags').$type<string[]>().notNull().default([]),
     categoryId: integer('category_id').references(() => navCategories.id, { onDelete: 'set null' }),

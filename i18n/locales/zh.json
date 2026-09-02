@@ -40,6 +40,18 @@
     "pageTitle": "校园门户",
     "pageDescription": "学校 AI、学习与工具平台导航入口。",
     "addLink": "添加链接",
-    "emptyNoResults": "没有找到匹配的链接，试试其他关键词。"
+    "emptyNoResults": "没有找到匹配的链接，试试其他关键词。",
+    "logo": {
+      "pickIcon": "选择图标",
+      "preview": "预览",
+      "fetchFavicon": "一键获取当前 URL 的 favicon",
+      "faviconMissingUrl": "请先填写链接 URL",
+      "faviconFetched": "已获取网站 favicon",
+      "faviconFailed": "获取 favicon 失败",
+      "pickColor": "选择图标颜色",
+      "svgTooltip": "设置自定义 SVG",
+      "svgTitle": "自定义 SVG 图标",
+      "svgHelp": "粘贴一段 SVG 代码，卡片将直接渲染该图形。"
+    }
   }
 }

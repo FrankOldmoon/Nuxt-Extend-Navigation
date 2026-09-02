@@ -43,14 +43,15 @@ export const navLinkMeta: TableMeta = {
   fields: [
     { key: 'id', label: 'ID', type: 'number', nullable: false, showInForm: false, showInTable: true, showInDetail: true, editable: false },
     { key: 'title', label: 'Title', type: 'text', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { required: true, maxLength: 255 } },
-    { key: 'titleZh', label: 'Title (中文)', type: 'text', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { maxLength: 255 }, helpText: '中文标题，留空则显示英文 Title。' },
     { key: 'url', label: 'URL', type: 'hyperlink', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { required: true } },
     { key: 'logo', label: 'Logo', type: 'icon', nullable: true,
       showInForm: true, showInTable: true, showInDetail: true, editable: true
     },
+    { key: 'logoColor', label: '', type: 'text', nullable: true,
+      showInForm: true, showInTable: false, showInDetail: false, editable: true
+    },
     { key: 'description', label: 'Description', type: 'richEditor', nullable: true, showInForm: true, showInTable: false, showInDetail: true, editable: true, widthClass: 'w-48' },
     { key: 'summary', label: 'Summary', type: 'text', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { maxLength: 255 } },
-    { key: 'summaryZh', label: 'Summary (中文)', type: 'text', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, validation: { maxLength: 255 }, helpText: '中文简介，留空则显示英文 Summary。' },
     { key: 'tags', label: 'Tags', type: 'tags', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },
     { key: 'categoryId', label: 'Category', type: 'relation', nullable: true, showInForm: true, showInTable: true, showInDetail: true, editable: true, relation: { table: 'navCategories', labelKey: 'name', valueKey: 'id', creatable: true, slugField: 'slug' } },
     { key: 'isFeatured', label: 'Featured', type: 'boolean', nullable: false, showInForm: true, showInTable: true, showInDetail: true, editable: true },

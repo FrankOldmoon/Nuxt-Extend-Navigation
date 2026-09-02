@@ -40,6 +40,18 @@
     "pageTitle": "Campus Portal",
     "pageDescription": "School navigation portal for AI, learning and campus tools.",
     "addLink": "Add a link",
-    "emptyNoResults": "No links match your search. Try a different keyword."
+    "emptyNoResults": "No links match your search. Try a different keyword.",
+    "logo": {
+      "pickIcon": "Pick an icon",
+      "preview": "Preview",
+      "fetchFavicon": "Fetch favicon for the current URL",
+      "faviconMissingUrl": "Please fill in the link URL first",
+      "faviconFetched": "Favicon fetched",
+      "faviconFailed": "Failed to fetch favicon",
+      "pickColor": "Pick icon colour",
+      "svgTooltip": "Set a custom SVG",
+      "svgTitle": "Custom SVG icon",
+      "svgHelp": "Paste SVG code below; the card will render it directly."
+    }
   }
 }

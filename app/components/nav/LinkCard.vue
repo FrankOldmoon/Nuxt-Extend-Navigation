@@ -12,6 +12,8 @@ import { trackNavClick } from '../../composables/useNav'
 const props = defineProps<{
   link: NavLinkView
   deleting?: boolean
+  /** Accent colour (per category) used to tint the card edge on hover. */
+  accent?: string
 }>()
 
 const emit = defineEmits<{
@@ -40,8 +42,14 @@ function openLink() {
 
 <template>
   <div
-    class="group relative flex h-24 items-center gap-3 rounded-xl border border-default bg-elevated p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
+    class="group relative flex h-24 items-center gap-3 rounded-xl border border-default bg-elevated p-3 text-left transition hover:-translate-y-0.5 hover:shadow-lg dark:bg-elevated hover:shadow-primary/5"
   >
+    <!-- Accent top edge (per-category colour), revealed on hover -->
+    <span
+      v-if="props.accent"
+      class="pointer-events-none absolute inset-x-0 top-0 h-1 rounded-t-xl opacity-50 transition group-hover:opacity-100"
+      :style="{ background: `linear-gradient(90deg, ${props.accent}, ${props.accent}88)` }"
+    />
     <!-- Top-right buttons (management only when logged in) -->
     <div class="absolute right-2 top-2 z-10 flex items-center gap-1" @click.stop>
       <template v-if="isAdmin">
@@ -87,7 +95,7 @@ function openLink() {
       class="flex w-full items-center gap-3 text-left"
       @click="openLink"
     >
-      <NavLogo :logo="link.logo" :size="'h-11 w-11 shrink-0'" />
+      <NavLogo :logo="link.logo" :color="link.logoColor" :size="'h-11 w-11 shrink-0'" />
       <span class="flex min-w-0 flex-1 flex-col gap-0.5">
         <UTooltip v-if="link.title.length > 30" :text="link.title">
           <span class="truncate text-sm font-semibold text-highlighted group-hover:text-primary">

@@ -52,15 +52,12 @@ const filteredGroups = computed<NavCategoryGroup[]>(() => {
       ...g,
       name: pick(g.nameZh, g.name),
       description: pick(g.descriptionZh, g.description),
-      links: g.links
-        .filter((l) =>
-          !q.value ||
-          l.title.toLowerCase().includes(q.value) ||
-          (l.titleZh ?? '').toLowerCase().includes(q.value) ||
-          richTextToPlain(l.description).toLowerCase().includes(q.value) ||
-          l.tags.some((tag) => tag.toLowerCase().includes(q.value))
-        )
-        .map((l) => ({ ...l, title: pick(l.titleZh, l.title), summary: pick(l.summaryZh, l.summary) }))
+      links: g.links.filter((l) =>
+        !q.value ||
+        l.title.toLowerCase().includes(q.value) ||
+        richTextToPlain(l.description).toLowerCase().includes(q.value) ||
+        l.tags.some((tag) => tag.toLowerCase().includes(q.value))
+      )
     }))
     .filter((g) => g.links.length > 0)
 })
@@ -69,6 +66,14 @@ const isEmpty = computed(() => status.value === 'success' && filteredGroups.valu
 
 // All available categories (for the filter buttons)
 const allCategories = computed(() => (rawGroups.value ?? []).map(g => ({ id: g.id, name: pick(g.nameZh, g.name), icon: g.icon })))
+
+// ---- Colourful theming ----
+// A fixed multi-colour palette. Each category is assigned a colour by its id so
+// the filter chips, section headers and cards stay consistent across renders.
+const PALETTE = ['#f43f5e', '#8b5cf6', '#0ea5e9', '#10b981', '#f59e0b', '#ec4899', '#6366f1', '#06b6d4', '#f97316', '#84cc16', '#a855f7', '#14b8a6']
+function catColor(id: number): string {
+  return PALETTE[Math.abs(id) % PALETTE.length]
+}
 
 // ---- Editor modal state ----
 const editorOpen = ref(false)
@@ -112,11 +117,10 @@ async function confirmDelete(id: number) {
 
 <template>
   <div class="min-h-screen bg-default">
-    <!-- Search bar -->
-    <section class="sticky top-12 z-20 border-b border-default bg-elevated">
+    <!-- Search bar (sticky) -->
+    <section class="sticky top-12 z-20 border-b border-default bg-elevated/90 backdrop-blur">
       <div class="mx-auto max-w-5xl px-4 py-4">
         <div class="flex items-center gap-3">
-          <UColorModeButton />
           <UInput
             v-model="search"
             icon="i-lucide-search"
@@ -135,18 +139,21 @@ async function confirmDelete(id: number) {
           />
         </div>
 
-        <!-- Category filter buttons -->
+        <!-- Multicolour category filter chips -->
         <div v-if="allCategories.length" class="mt-3 flex flex-wrap items-center gap-2">
-          <UButton
+          <button
             v-for="cat in allCategories"
             :key="cat.id"
-            size="xs"
-            :color="isSelected(cat.id) ? 'primary' : 'neutral'"
-            :variant="isSelected(cat.id) ? 'solid' : 'outline'"
+            type="button"
+            class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition"
+            :style="isSelected(cat.id)
+              ? { background: catColor(cat.id), borderColor: catColor(cat.id), color: '#fff' }
+              : { color: catColor(cat.id), borderColor: `${catColor(cat.id)}66` }"
             @click="toggleCategory(cat.id)"
           >
+            <UIcon v-if="cat.icon" :name="cat.icon" class="h-3.5 w-3.5" />
             {{ cat.name }}
-          </UButton>
+          </button>
           <UButton
             v-if="hasCategoryFilter"
             size="xs"
@@ -174,12 +181,16 @@ async function confirmDelete(id: number) {
     <section v-else class="mx-auto max-w-5xl px-4 py-10">
       <div v-for="g in filteredGroups" :key="g.id" class="mb-10">
         <div class="mb-4 flex items-center gap-2.5 border-b border-default pb-3">
-          <span class="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10">
-            <UIcon v-if="g.icon" :name="g.icon" class="h-4 w-4 text-primary" />
-            <UIcon v-else name="i-lucide-folder" class="h-4 w-4 text-primary" />
+          <span class="h-6 w-1.5 rounded-full" :style="{ background: catColor(g.id) }" />
+          <span class="flex h-8 w-8 items-center justify-center rounded-lg" :style="{ background: `${catColor(g.id)}1f` }">
+            <UIcon v-if="g.icon" :name="g.icon" class="h-4 w-4" :style="{ color: catColor(g.id) }" />
+            <UIcon v-else name="i-lucide-folder" class="h-4 w-4" :style="{ color: catColor(g.id) }" />
           </span>
           <h2 class="text-lg font-bold text-highlighted">{{ g.name }}</h2>
-          <span class="text-xs text-muted">{{ g.links.length }}</span>
+          <span
+            class="rounded-full px-2 py-0.5 text-xs font-semibold"
+            :style="{ background: `${catColor(g.id)}1f`, color: catColor(g.id) }"
+          >{{ g.links.length }}</span>
           <p v-if="g.description" class="hidden text-xs text-muted sm:block">{{ g.description }}</p>
         </div>
 
@@ -188,6 +199,7 @@ async function confirmDelete(id: number) {
             v-for="l in g.links"
             :key="l.id"
             :link="l"
+            :accent="catColor(g.id)"
             :deleting="deleting"
             @edit="openEdit"
             @delete="confirmDelete"

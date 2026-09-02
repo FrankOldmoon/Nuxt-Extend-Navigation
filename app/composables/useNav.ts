@@ -80,4 +80,16 @@ export function trackNavClick(id: number) {
   }
 }
 
+/**
+ * Resolve the favicon for a URL via the module API, returning a `logo` value
+ * (an https URL) ready to store in the nav link's `logo` field.
+ */
+export async function resolveNavFavicon(url: string): Promise<string> {
+  const res = await $fetch<{ logo: string }>('/api/nav/favicon', {
+    method: 'POST',
+    body: { url }
+  })
+  return res.logo
+}
+
 export type { NavLink, NavCategory }

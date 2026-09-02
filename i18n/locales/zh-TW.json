@@ -39,6 +39,18 @@
     },
     "addLink": "添加連結",
     "emptyNoResults": "沒有找到匹配的連結，試試其他關鍵詞。",
+    "logo": {
+      "pickIcon": "選擇圖示",
+      "preview": "預覽",
+      "fetchFavicon": "一鍵獲取目前 URL 的 favicon",
+      "faviconMissingUrl": "請先填寫連結 URL",
+      "faviconFetched": "已獲取網站 favicon",
+      "faviconFailed": "取得 favicon 失敗",
+      "pickColor": "選擇圖示顏色",
+      "svgTooltip": "設定自訂 SVG",
+      "svgTitle": "自訂 SVG 圖示",
+      "svgHelp": "貼上一段 SVG 程式碼，卡片會直接渲染該圖形。"
+    },
     "pageTitle": "校園門戶",
     "pageDescription": "學校 AI、學習與工具平台導航入口。"
   }
