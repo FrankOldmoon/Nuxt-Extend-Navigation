@@ -15,7 +15,7 @@ import { useNavData, richTextToPlain } from '../../composables/useNav'
 
 const { t, locale } = useI18n()
 const toast = useToast()
-const { isLoggedIn } = useAuth()
+const { isAdmin } = useAuth()
 const { data: rawGroups, status, refresh } = useNavData()
 
 const search = ref('')
@@ -126,7 +126,7 @@ async function confirmDelete(id: number) {
             @keydown.esc="search = ''"
           />
           <UButton
-            v-if="isLoggedIn"
+            v-if="isAdmin"
             icon="i-lucide-plus"
             color="primary"
             size="lg"

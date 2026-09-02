@@ -20,6 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { isAdmin } = useAuth()
 const descOpen = ref(false)
 
 function openLink() {
@@ -41,26 +42,28 @@ function openLink() {
   <div
     class="group relative flex h-24 items-center gap-3 rounded-xl border border-default bg-elevated p-3 text-left transition hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-lg dark:bg-elevated dark:hover:shadow-primary/5"
   >
-    <!-- Top-right buttons (always visible) -->
+    <!-- Top-right buttons (management only when logged in) -->
     <div class="absolute right-2 top-2 z-10 flex items-center gap-1" @click.stop>
-      <UButton
-        icon="i-lucide-pencil"
-        size="2xs"
-        color="neutral"
-        variant="ghost"
-        :title="t('common.edit')"
-        @click="emit('edit', link.id)"
-      />
-      <BaseConfirmButton
-        icon="i-lucide-trash-2"
-        size="2xs"
-        square
-        color="error"
-        variant="ghost"
-        :title="t('common.delete')"
-        :loading="deleting"
-        @confirm="emit('delete', link.id)"
-      />
+      <template v-if="isAdmin">
+        <UButton
+          icon="i-lucide-pencil"
+          size="2xs"
+          color="neutral"
+          variant="ghost"
+          :title="t('common.edit')"
+          @click="emit('edit', link.id)"
+        />
+        <BaseConfirmButton
+          icon="i-lucide-trash-2"
+          size="2xs"
+          square
+          color="error"
+          variant="ghost"
+          :title="t('common.delete')"
+          :loading="deleting"
+          @confirm="emit('delete', link.id)"
+        />
+      </template>
       <!-- Description info icon (rightmost, only when description exists) -->
       <span
         v-if="link.description"
