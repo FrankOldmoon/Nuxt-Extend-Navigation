@@ -9,15 +9,19 @@ import { navCategories, navLinks } from '../../database/schema'
 export interface NavOverviewGroup {
   id: number
   name: string
+  nameZh: string | null
   slug: string
   description: string | null
+  descriptionZh: string | null
   icon: string | null
   links: Array<{
     id: number
     title: string
+    titleZh: string | null
     url: string
     description: Record<string, unknown> | null
     summary: string | null
+    summaryZh: string | null
     logo: string | null
     tags: string[]
     categoryId: number | null
@@ -47,15 +51,19 @@ export default defineEventHandler(async (): Promise<NavOverviewGroup[]> => {
   const groups: NavOverviewGroup[] = cats.map((c) => ({
     id: c.id,
     name: c.name,
+    nameZh: c.nameZh,
     slug: c.slug,
     description: c.description,
+    descriptionZh: c.descriptionZh,
     icon: c.icon,
     links: (byCategory.get(c.id) ?? []).map((l) => ({
       id: l.id,
       title: l.title,
+      titleZh: l.titleZh,
       url: l.url,
       description: l.description,
       summary: l.summary,
+      summaryZh: l.summaryZh,
       logo: l.logo,
       tags: l.tags,
       categoryId: l.categoryId,

@@ -16,8 +16,10 @@ export interface NavLinkView extends Omit<NavLink, 'tags'> {
 export interface NavCategoryGroup {
   id: number
   name: string
+  nameZh: string | null
   slug: string
   description: string | null
+  descriptionZh: string | null
   icon: string | null
   links: NavLinkView[]
 }

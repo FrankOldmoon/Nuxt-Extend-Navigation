@@ -13,13 +13,16 @@
 import type { NavCategoryGroup } from '../../composables/useNav'
 import { useNavData, richTextToPlain } from '../../composables/useNav'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const toast = useToast()
 const { isLoggedIn } = useAuth()
 const { data: rawGroups, status, refresh } = useNavData()
 
 const search = ref('')
 const q = computed(() => search.value.trim().toLowerCase())
+// Pick localized text: Chinese first when locale is zh, else English (fallback to either).
+const pick = (zh: string | null | undefined, en: string | null | undefined) =>
+  locale.value === 'zh' ? (zh || en || '') : (en || zh || '')
 
 // Multi-select category filter
 const selectedCategoryIds = ref<Set<number>>(new Set())
@@ -47,12 +50,17 @@ const filteredGroups = computed<NavCategoryGroup[]>(() => {
     .filter((g) => !hasCategoryFilter.value || isSelected(g.id))
     .map((g) => ({
       ...g,
-      links: g.links.filter((l) =>
-        !q.value ||
-        l.title.toLowerCase().includes(q.value) ||
-        richTextToPlain(l.description).toLowerCase().includes(q.value) ||
-        l.tags.some((tag) => tag.toLowerCase().includes(q.value))
-      )
+      name: pick(g.nameZh, g.name),
+      description: pick(g.descriptionZh, g.description),
+      links: g.links
+        .filter((l) =>
+          !q.value ||
+          l.title.toLowerCase().includes(q.value) ||
+          (l.titleZh ?? '').toLowerCase().includes(q.value) ||
+          richTextToPlain(l.description).toLowerCase().includes(q.value) ||
+          l.tags.some((tag) => tag.toLowerCase().includes(q.value))
+        )
+        .map((l) => ({ ...l, title: pick(l.titleZh, l.title), summary: pick(l.summaryZh, l.summary) }))
     }))
     .filter((g) => g.links.length > 0)
 })
@@ -60,7 +68,7 @@ const filteredGroups = computed<NavCategoryGroup[]>(() => {
 const isEmpty = computed(() => status.value === 'success' && filteredGroups.value.length === 0)
 
 // All available categories (for the filter buttons)
-const allCategories = computed(() => (rawGroups.value ?? []).map(g => ({ id: g.id, name: g.name, icon: g.icon })))
+const allCategories = computed(() => (rawGroups.value ?? []).map(g => ({ id: g.id, name: pick(g.nameZh, g.name), icon: g.icon })))
 
 // ---- Editor modal state ----
 const editorOpen = ref(false)
