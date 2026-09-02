@@ -144,7 +144,8 @@ function applySvg() {
       <UIcon
         v-else-if="preview.kind === 'icon'"
         :name="preview.src"
-        class="h-4 w-4 text-muted"
+        class="h-4 w-4"
+        :style="colorValue ? { color: colorValue } : undefined"
       />
       <UIcon v-else name="i-lucide-globe" class="h-4 w-4 text-muted" />
     </button>
