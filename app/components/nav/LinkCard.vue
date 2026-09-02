@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { isLoggedIn } = useAuth()
+const { isAdmin } = useAuth()
 const descOpen = ref(false)
 
 function openLink() {
@@ -44,7 +44,7 @@ function openLink() {
   >
     <!-- Top-right buttons (management only when logged in) -->
     <div class="absolute right-2 top-2 z-10 flex items-center gap-1" @click.stop>
-      <template v-if="isLoggedIn">
+      <template v-if="isAdmin">
         <UButton
           icon="i-lucide-pencil"
           size="2xs"
